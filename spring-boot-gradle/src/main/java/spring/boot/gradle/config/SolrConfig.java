@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
+import org.springframework.data.solr.server.support.MulticoreSolrClientFactory;
 @Configuration
 @EnableSolrRepositories(
   basePackages = "spring.boot.gradle.repository",
@@ -14,14 +15,29 @@ import org.springframework.data.solr.repository.config.EnableSolrRepositories;
   multicoreSupport = true)
 @ComponentScan
 public class SolrConfig {
- 
-    @Bean
-    public SolrClient solrClient() {
-        return new HttpSolrClient("http://localhost:8983/solr");
+
+	private final String solrHost = "http://localhost:8983/solr";
+	
+	@Bean
+	public MulticoreSolrClientFactory solrServerFactoryBean() {
+       HttpSolrClient
+               factory = new HttpSolrClient(solrHost);
+       MulticoreSolrClientFactory multicoreSolrClientFactory = new MulticoreSolrClientFactory(factory);
+       return multicoreSolrClientFactory;
     }
- 
-    @Bean
-    public SolrTemplate solrTemplate(SolrClient client) throws Exception {
-        return new SolrTemplate(client);
-    }
+
+   @Bean
+   public SolrTemplate solrTemplate() throws Exception {
+       return new SolrTemplate(solrServerFactoryBean());
+   }
+	   
+//    @Bean
+//    public SolrClient solrClient() {
+//        return new HttpSolrClient("");
+//    }
+// 
+//    @Bean
+//    public SolrTemplate solrTemplate(SolrClient client) throws Exception {
+//        return new SolrTemplate(client);
+//    }
 }
