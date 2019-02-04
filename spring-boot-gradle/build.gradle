@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.4.3.RELEASE'
+		springBootVersion = '1.5.10.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -30,7 +30,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web','org.apache.tomcat.embed:tomcat-embed-jasper'
 	,'javax.servlet:jstl')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	compile 'org.springframework.boot:spring-boot-starter-data-solr:1.5.9.RELEASE'
+	compile 'org.springframework.boot:spring-boot-starter-data-solr:2.1.10.RELEASE'
 	compile 'org.apache.httpcomponents:httpclient:4.5.4'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-solr', version: springBootVersion
 }
