@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.FacetQuery;
@@ -51,26 +52,14 @@ public class SolrService {
 	}
 	
 	public Object getSolrDataByCriteria(String id, String name) {
-//		System.out.println("Criteria query id: "+ id+ " name: "+ name);
-//		
-		return solrTemplate.queryForPage(new SimpleQuery(new SimpleStringCriteria("name:" + name)).setPageRequest(new PageRequest(0, 10)),
-				Company.class);
-//		
+		System.out.println("Criteria query id: "+ id+ " name: "+ name);
 		
-//		Criteria conditions = Criteria.where("name").is(name);
-//		Criteria conditions =new Criteria();
-//		if(name != null) 
-//			conditions = (conditions == null) ? new Criteria("name").is(name) : conditions.or(new Criteria("name").is(name));
-			
-//		Query query = new SimpleQuery(conditions);
-//		System.out.println("QUERY BEFORE=>>> "+query.getRequestHandler());
-//		FacetQuery search = new SimpleFacetQuery(new Criteria("name").is(name), new PageRequest(0, 10));
-//		Query search = new SimpleQuery(new Criteria("name").is(name));
-//		search.setPageRequest(new PageRequest(0, 10));
-//		System.out.println("QUERY:=>  "+search.getCriteria()+" >>>" +search.ge);
-//		Page<Company> resultPage = solrTemplate.query(search, Company.class);
-//		return solrTemplate.queryForPage(search, Company.class);
-//		return resultPage;
-//		return null;
+		Criteria crit = Criteria.where("id").is(id);
+//		crit = crit.and("name").is(name);
+		System.out.println("criteria "+ crit);
+		SimpleQuery query = new SimpleQuery(crit, new PageRequest(0, 100));		
+		System.out.println("QUERY BEFORE=>>> "+query);
+		
+		return solrTemplate.queryForPage(query, Company.class);
 	}
 }
